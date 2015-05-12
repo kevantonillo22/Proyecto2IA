@@ -29,6 +29,8 @@ public class ProcesamientoLaberinto {
     public Nodo destino_final;
     
     public int[][] tablero;
+    public Nodo[][] tablero_nodos_cerrados;
+    public Nodo[][] tablero_nodos_abiertos;
     int costo;
     
     ArrayList<Nodo> abiertos = new ArrayList();
@@ -71,6 +73,7 @@ public class ProcesamientoLaberinto {
         Nodo inicial = new Nodo(puntoInicialX, puntoInicialY, puntoFinalX, puntoFinalY, null);
         inicial.g = 0;
         abiertos.add(inicial);
+        tablero_nodos_cerrados[puntoInicialX][puntoInicialY] = inicial;
         Collections.sort(abiertos);
         
         //obtengo el que tiene un f más pequeño
@@ -102,9 +105,9 @@ public class ProcesamientoLaberinto {
             int valy = y;
             if(valx <= largox)
             {
-                if(tablero[valx][valy] == 0 && isInCerrados(valx, valy) == null)
+                if(tablero[valx][valy] == 0 && tablero_nodos_cerrados[valx][valy] == null)
                 {
-                    Nodo nod = isInAbiertos(valx, valy);
+                    Nodo nod = tablero_nodos_abiertos[valx][valy];
                     //sino esta en abiertos lo agregamos de lo contrario analizamos si es un buen camino
                     if(nod == null)
                     {
@@ -113,6 +116,7 @@ public class ProcesamientoLaberinto {
                         adyacente.calcularH();
                         adyacente.calcularF();
                         abiertos.add(adyacente);
+                        tablero_nodos_abiertos[valx][valy] = adyacente;
                     }
                     else
                     {
@@ -133,9 +137,9 @@ public class ProcesamientoLaberinto {
             valy = y;
             if(valx >= 0)
             {
-                if(tablero[valx][valy] == 0 && isInCerrados(valx, valy) == null)
+                if(tablero[valx][valy] == 0 && tablero_nodos_cerrados[valx][valy] == null)
                 {
-                    Nodo nod = isInAbiertos(valx, valy);
+                    Nodo nod = tablero_nodos_abiertos[valx][valy];
                     if(nod == null)
                     {
                         Nodo adyacente = new Nodo(valx, valy, puntoFinalX, puntoFinalY,inicial);
@@ -143,6 +147,7 @@ public class ProcesamientoLaberinto {
                         adyacente.calcularH();
                         adyacente.calcularF();
                         abiertos.add(adyacente);
+                        tablero_nodos_abiertos[valx][valy] = adyacente;
                     }
                     else
                     {
@@ -164,9 +169,9 @@ public class ProcesamientoLaberinto {
             valy = y - num;
             if(valy >= 0)
             {
-                if(tablero[valx][valy] == 0 && isInCerrados(valx, valy) == null)
+                if(tablero[valx][valy] == 0 && tablero_nodos_cerrados[valx][valy] == null)
                 {
-                    Nodo nod = isInAbiertos(valx, valy);
+                    Nodo nod = tablero_nodos_abiertos[valx][valy];
                     if(nod == null)
                     {
                         Nodo adyacente = new Nodo(valx, valy, puntoFinalX, puntoFinalY, inicial);
@@ -174,6 +179,7 @@ public class ProcesamientoLaberinto {
                         adyacente.calcularH();
                         adyacente.calcularF();
                         abiertos.add(adyacente);
+                        tablero_nodos_abiertos[valx][valy] = adyacente;
                     }
                     else
                     {
@@ -195,9 +201,9 @@ public class ProcesamientoLaberinto {
             valy = y + num;
             if(valy <= largoy)
             {
-                if(tablero[valx][valy] == 0 && isInCerrados(valx, valy) == null)
+                if(tablero[valx][valy] == 0 && tablero_nodos_cerrados[valx][valy] == null)
                 {
-                    Nodo nod = isInAbiertos(valx, valy);
+                    Nodo nod = tablero_nodos_abiertos[valx][valy];
                     if(nod == null)
                     {
                         Nodo adyacente = new Nodo(valx, valy, puntoFinalX, puntoFinalY, inicial);
@@ -205,6 +211,7 @@ public class ProcesamientoLaberinto {
                         adyacente.calcularH();
                         adyacente.calcularF();
                         abiertos.add(adyacente);
+                        tablero_nodos_abiertos[valx][valy] = adyacente;
                     }
                     else
                     {
@@ -225,9 +232,9 @@ public class ProcesamientoLaberinto {
             valy = y - num;
             if(valx <= largox && valy >= 0)
             {
-                if(tablero[valx][valy] == 0 /*&& tablero[valx][valy+num] == 0 && tablero[valx-num][valy] == 0*/ && isInCerrados(valx, valy) == null)
+                if(tablero[valx][valy] == 0 /*&& tablero[valx][valy+num] == 0 && tablero[valx-num][valy] == 0*/ && tablero_nodos_cerrados[valx][valy] == null)
                 {
-                    Nodo nod = isInAbiertos(valx, valy);
+                    Nodo nod = tablero_nodos_abiertos[valx][valy];
                     //sino esta en abiertos lo agregamos de lo contrario analizamos si es un buen camino
                     if(nod == null)
                     {
@@ -236,6 +243,7 @@ public class ProcesamientoLaberinto {
                         adyacente.calcularH();
                         adyacente.calcularF();
                         abiertos.add(adyacente);
+                        tablero_nodos_abiertos[valx][valy] = adyacente;
                     }
                     else
                     {
@@ -257,9 +265,9 @@ public class ProcesamientoLaberinto {
             valy = y + num;
             if(valx <= largox && valy <= largoy)
             {
-                if(tablero[valx][valy] == 0 /*&& tablero[valx][valy-num] == 0 && tablero[valx-num][valy] == 0*/ && isInCerrados(valx, valy) == null)
+                if(tablero[valx][valy] == 0 /*&& tablero[valx][valy-num] == 0 && tablero[valx-num][valy] == 0*/ && tablero_nodos_cerrados[valx][valy] == null)
                 {
-                    Nodo nod = isInAbiertos(valx, valy);
+                    Nodo nod = tablero_nodos_abiertos[valx][valy];
                     if(nod == null)
                     {
                         Nodo adyacente = new Nodo(valx, valy, puntoFinalX, puntoFinalY, inicial);
@@ -267,6 +275,7 @@ public class ProcesamientoLaberinto {
                         adyacente.calcularH();
                         adyacente.calcularF();
                         abiertos.add(adyacente);
+                        tablero_nodos_abiertos[valx][valy] = adyacente;
                     }
                     else
                     {
@@ -288,9 +297,9 @@ public class ProcesamientoLaberinto {
             valy = y - num;
             if(valx >= 0 && valy >= 0)
             {
-                if(tablero[valx][valy] == 0 /*&& tablero[valx][valy+num] == 0 && tablero[valx+num][valy] == 0*/ && isInCerrados(valx, valy) == null)
+                if(tablero[valx][valy] == 0 /*&& tablero[valx][valy+num] == 0 && tablero[valx+num][valy] == 0*/ && tablero_nodos_cerrados[valx][valy] == null)
                 {
-                    Nodo nod = isInAbiertos(valx, valy);
+                    Nodo nod = tablero_nodos_abiertos[valx][valy];
                     if(nod == null)
                     {
                         Nodo adyacente = new Nodo(valx, valy, puntoFinalX, puntoFinalY, inicial);
@@ -298,6 +307,7 @@ public class ProcesamientoLaberinto {
                         adyacente.calcularH();
                         adyacente.calcularF();
                         abiertos.add(adyacente);
+                        tablero_nodos_abiertos[valx][valy] = adyacente;
                     }
                     else
                     {
@@ -319,9 +329,9 @@ public class ProcesamientoLaberinto {
             valy = y + num;
             if(valx >= 0 && valy <= largoy)
             {
-                if(tablero[valx][valy] == 0 /*&& tablero[valx][valy-num] == 0 && tablero[valx+num][valy] == 0*/ && isInCerrados(valx, valy) == null)
+                if(tablero[valx][valy] == 0 /*&& tablero[valx][valy-num] == 0 && tablero[valx+num][valy] == 0*/ && tablero_nodos_cerrados[valx][valy] == null)
                 {
-                    Nodo nod = isInAbiertos(valx, valy);
+                    Nodo nod = tablero_nodos_abiertos[valx][valy];
                     if(nod == null)
                     {
                         Nodo adyacente = new Nodo(valx, valy, puntoFinalX, puntoFinalY, inicial);
@@ -329,6 +339,7 @@ public class ProcesamientoLaberinto {
                         adyacente.calcularH();
                         adyacente.calcularF();
                         abiertos.add(adyacente);
+                        tablero_nodos_abiertos[valx][valy] = adyacente;
                     }
                     else
                     {
@@ -355,6 +366,9 @@ public class ProcesamientoLaberinto {
             
             abiertos.remove(0);
             cerrados.add(menor);
+            tablero_nodos_abiertos[x][y] = null;
+            tablero_nodos_cerrados[x][y] = menor;
+            
             Nodo ultimo = isInAbiertos(puntoFinalX, puntoFinalY);
             if(ultimo != null)
             {
@@ -425,6 +439,8 @@ public class ProcesamientoLaberinto {
     public BufferedImage InterpretarEscenario(){
         Color color;
         tablero=new int[imageActual.getWidth()][imageActual.getHeight()];
+        tablero_nodos_cerrados = new Nodo[imageActual.getWidth()][imageActual.getHeight()];
+        tablero_nodos_abiertos = new Nodo[imageActual.getWidth()][imageActual.getHeight()];
         for( int i = 0; i < imageActual.getWidth(); i++ ){
             for( int j = 0; j < imageActual.getHeight(); j++ )
             {
@@ -439,198 +455,4 @@ public class ProcesamientoLaberinto {
         //Retornamos la imagen
         return imageActual;
     }
-    
-    
-    
-    /*
-     public BufferedImage BusquedaA() {
-        int origenX=this.puntoInicialX;
-        int origenY=this.puntoInicialY;
-        //int destinoX=tablero.length-1;
-        //int destinoY=tablero[0].length-1;
-        
-        int destinoX=this.puntoFinalX - 1;
-        int destinoY=this.puntoFinalY - 1;
-        costo =0;
-        tratarPunto(origenX,origenY,destinoX,destinoY,0);
-        return imageActual;
-    }
-
-    private void tratarPunto(int x, int y, int destinoX, int destinoY, int padre) {
-        boolean arriba=false;           
-        boolean abajo=false;           
-        boolean derecha=false;          
-        boolean izquierda=false;        
-        boolean arribaDerecha=false;    
-        boolean abajoDerecha=false;    
-        boolean arribaIzquierda=false;  
-        boolean abajoIzquierda=false;
-        int excepcion=0;
-        
-        if(x<destinoX && y<destinoY){
-            if(x>0 && y>0){
-                   if(tablero[x][y-1]==0){
-                       arriba = true;
-                   }
-                   if(tablero[x+1][y-1]==0){
-                       arribaDerecha = true;
-                   }
-                   if(tablero[x+1][y]==0){
-                       derecha = true;
-                   }
-                   if(tablero[x+1][y+1]==0){
-                       abajoDerecha = true;
-                   }
-                   if(tablero[x][y+1]==0){
-                       abajo = true;
-                   }
-                   if(tablero[x-1][y+1]==0){
-                       abajoIzquierda = true;
-                   }
-                   if(tablero[x-1][y]==0){
-                       izquierda = true;
-                   }
-                   if(tablero[x-1][y-1]==0){
-                       arribaIzquierda = true;
-                   }
-            }else if(x==0 && y>0){
-                   if(tablero[x][y-1]==0){
-                       arriba = true;
-                   }
-                   if(tablero[x+1][y-1]==0){
-                       arribaDerecha = true;
-                   }
-                   if(tablero[x+1][y]==0){
-                       derecha = true;
-                   }
-                   if(tablero[x+1][y+1]==0){
-                       abajoDerecha = true;
-                   }
-                   if(tablero[x][y+1]==0){
-                       abajo = true;
-                   }
-            }else if(x>0 && y==0){
-                   if(tablero[x+1][y]==0){
-                       derecha = true;
-                   }
-                   if(tablero[x+1][y+1]==0){
-                       abajoDerecha = true;
-                   }
-                   if(tablero[x][y+1]==0){
-                       abajo = true;
-                   }
-                   if(tablero[x-1][y+1]==0){
-                       abajoIzquierda = true;
-                   }
-                   if(tablero[x-1][y]==0){
-                       izquierda = true;
-                   }               
-            }else if(x==0 && y==0){
-                   if(tablero[x+1][y]==0){
-                       derecha = true;
-                   }
-                   if(tablero[x+1][y+1]==0){
-                       abajoDerecha = true;
-                   }
-                   if(tablero[x][y+1]==0){
-                       abajo = true;
-                   }                
-            }   
-        }else if(x==destinoX && y<destinoY){
-            if(y>0){
-                   if(tablero[x][y+1]==0){
-                       abajo = true;
-                   }else{
-                       excepcion = 1;
-                   }
-                   if(tablero[x-1][y+1]==0){
-                       abajoIzquierda = true;
-                   }
-                   if(tablero[x-1][y]==0){
-                       izquierda = true;
-                   }
-                   if(tablero[x-1][y-1]==0){
-                       arribaIzquierda = true;
-                   }
-            }else{
-                   if(tablero[x][y+1]==0){
-                       abajo = true;
-                   }
-                   if(tablero[x-1][y+1]==0){
-                       abajoIzquierda = true;
-                   }
-                   if(tablero[x-1][y]==0){
-                       izquierda = true;
-                   }
-            }
-        }else if(x<destinoX && y==destinoY){
-            if (x>0){
-                if(tablero[x][y-1]==0){
-                       arriba = true;
-                   }
-                   if(tablero[x+1][y-1]==0){
-                       arribaDerecha = true;
-                   }
-                   if(tablero[x+1][y]==0){
-                       derecha = true;
-                   }
-                   if(tablero[x-1][y]==0){
-                       izquierda = true;
-                   }
-                   if(tablero[x-1][y-1]==0){
-                       arribaIzquierda = true;
-                   }
-            }else{
-                if(tablero[x][y-1]==0){
-                       arriba = true;
-                   }
-                   if(tablero[x+1][y-1]==0){
-                       arribaDerecha = true;
-                   }
-                   if(tablero[x+1][y]==0){
-                       derecha = true;
-                   }
-            }
-        }else if(x==destinoX && y==destinoY){
-            mensaje("Ruta","Se ha encontrado la ruta más óptima de costo "+costo+" unidades.");
-            return;
-        }
-        int colorSRGB=0 | 0 | 255;
-        imageActual.setRGB(x, y,colorSRGB);
-        if(abajoDerecha && padre!=8){
-            costo++;
-            costo++;
-            tratarPunto(x+1,y+1,destinoX,destinoY,1);
-        }else if(derecha && padre!=7){
-            costo++;
-            tratarPunto(x+1,y,destinoX,destinoY,2);
-        }else if(abajo && padre!=5){
-            costo++;
-            tratarPunto(x,y+1,destinoX,destinoY,3);
-        }else if(arribaDerecha && padre!=6){
-            costo++;
-            costo++;
-            tratarPunto(x+1,y-1,destinoX,destinoY,4);
-        }else if(arriba && padre!=6){
-            costo++;
-            tratarPunto(x,y-1,destinoX,destinoY,5);
-        }else if(abajoIzquierda && padre!=4){
-            costo++;
-            costo++;
-            tratarPunto(x-1,y+1,destinoX,destinoY,6);
-        }else if(arribaIzquierda && padre!=1){
-            costo++;
-            costo++;
-            tratarPunto(x-1,y-1,destinoX,destinoY,8);
-        }else if(izquierda && padre!=2){
-            costo++;
-            tratarPunto(x-1,y,destinoX,destinoY,7);
-        }else{
-            mensaje("Ruta","No se ha encontrado una ruta viable");
-            return;
-        }
-    }
-    
-    */
-    
 }
