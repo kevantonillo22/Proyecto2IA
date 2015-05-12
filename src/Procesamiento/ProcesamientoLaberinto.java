@@ -88,16 +88,19 @@ public class ProcesamientoLaberinto {
         
         int x = puntoInicialX;
         int y = puntoInicialY;
+        int largoy = tablero[0].length-1;
+        int largox = tablero.length - 1;
         
         Nodo inicial = padre;
+        int num = 1;
         while(true)
         {
             
             //si no se sale del mapa
             //derecha del nodo
-            int valx = x + 1;
+            int valx = x + num;
             int valy = y;
-            if(valx <= tablero.length-1)
+            if(valx <= largox)
             {
                 if(tablero[valx][valy] == 0 && isInCerrados(valx, valy) == null)
                 {
@@ -126,7 +129,7 @@ public class ProcesamientoLaberinto {
             }
 
             //izquierda del nodo
-            valx = x - 1;
+            valx = x - num;
             valy = y;
             if(valx >= 0)
             {
@@ -158,7 +161,7 @@ public class ProcesamientoLaberinto {
 
             //arriba del nodo
             valx = x;
-            valy = y - 1;
+            valy = y - num;
             if(valy >= 0)
             {
                 if(tablero[valx][valy] == 0 && isInCerrados(valx, valy) == null)
@@ -189,8 +192,8 @@ public class ProcesamientoLaberinto {
 
             //abajo del nodo
             valx = x;
-            valy = y + 1;
-            if(valy <= tablero[0].length - 1)
+            valy = y + num;
+            if(valy <= largoy)
             {
                 if(tablero[valx][valy] == 0 && isInCerrados(valx, valy) == null)
                 {
@@ -218,11 +221,11 @@ public class ProcesamientoLaberinto {
             }
 
             //esquina superior derecha del nodo
-            valx = x + 1;
-            valy = y - 1;
-            if(valx <= tablero.length-1 && valy >= 0)
+            valx = x + num;
+            valy = y - num;
+            if(valx <= largox && valy >= 0)
             {
-                if(tablero[valx][valy] == 0 && tablero[valx][valy+1] == 0 && tablero[valx-1][valy] == 0 && isInCerrados(valx, valy) == null)
+                if(tablero[valx][valy] == 0 /*&& tablero[valx][valy+num] == 0 && tablero[valx-num][valy] == 0*/ && isInCerrados(valx, valy) == null)
                 {
                     Nodo nod = isInAbiertos(valx, valy);
                     //sino esta en abiertos lo agregamos de lo contrario analizamos si es un buen camino
@@ -250,11 +253,11 @@ public class ProcesamientoLaberinto {
             }
 
             //esquina inferior derecha del nodo
-            valx = x + 1;
-            valy = y + 1;
-            if(valx <= tablero.length-1 && valy <= tablero[0].length-1)
+            valx = x + num;
+            valy = y + num;
+            if(valx <= largox && valy <= largoy)
             {
-                if(tablero[valx][valy] == 0 && tablero[valx][valy-1] == 0 && tablero[valx-1][valy] == 0 && isInCerrados(valx, valy) == null)
+                if(tablero[valx][valy] == 0 /*&& tablero[valx][valy-num] == 0 && tablero[valx-num][valy] == 0*/ && isInCerrados(valx, valy) == null)
                 {
                     Nodo nod = isInAbiertos(valx, valy);
                     if(nod == null)
@@ -281,11 +284,11 @@ public class ProcesamientoLaberinto {
             }
 
             //esquina superior izquierda del nodo
-            valx = x - 1;
-            valy = y - 1;
+            valx = x - num;
+            valy = y - num;
             if(valx >= 0 && valy >= 0)
             {
-                if(tablero[valx][valy] == 0 && tablero[valx][valy+1] == 0 && tablero[valx+1][valy] == 0 && isInCerrados(valx, valy) == null)
+                if(tablero[valx][valy] == 0 /*&& tablero[valx][valy+num] == 0 && tablero[valx+num][valy] == 0*/ && isInCerrados(valx, valy) == null)
                 {
                     Nodo nod = isInAbiertos(valx, valy);
                     if(nod == null)
@@ -312,11 +315,11 @@ public class ProcesamientoLaberinto {
             }
 
             //esquina inferior izquierda del nodo
-            valx = x - 1;
-            valy = y + 1;
-            if(valx >= 0 && valy <= tablero[0].length-1)
+            valx = x - num;
+            valy = y + num;
+            if(valx >= 0 && valy <= largoy)
             {
-                if(tablero[valx][valy] == 0 && tablero[valx][valy-1] == 0 && tablero[valx+1][valy] == 0 && isInCerrados(valx, valy) == null)
+                if(tablero[valx][valy] == 0 /*&& tablero[valx][valy-num] == 0 && tablero[valx+num][valy] == 0*/ && isInCerrados(valx, valy) == null)
                 {
                     Nodo nod = isInAbiertos(valx, valy);
                     if(nod == null)
