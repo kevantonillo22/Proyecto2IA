@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.logging.Level;
@@ -17,7 +18,6 @@ import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
 /**
  *
  * @author Kev
@@ -486,5 +486,20 @@ public class ProcesamientoLaberinto {
             Logger.getLogger(ProcesamientoLaberinto.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+    }
+    
+    public void asignarImagen(URL url)
+    {
+        try {
+            try {
+                imagenSeleccionada = new File(url.toURI());
+              } catch(Exception e) {
+                imagenSeleccionada = new File(url.getPath());
+              }
+            imageActual = ImageIO.read(url);
+            imageOriginal = ImageIO.read(url);
+        } catch (IOException ex) {
+            Logger.getLogger(ProcesamientoLaberinto.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
