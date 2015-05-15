@@ -167,8 +167,10 @@ public class mainFrame extends javax.swing.JFrame {
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         proc = new ProcesamientoLaberinto();
         BufferedImage bf = proc.CargarImagenLaberinto();
+        
         jLabel1.setIcon(new ImageIcon(bf));
         jLabel1.setText("");
+        this.setSize(bf.getWidth() + 35, bf.getHeight() + 80);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed

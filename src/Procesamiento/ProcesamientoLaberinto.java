@@ -22,6 +22,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class ProcesamientoLaberinto {
     //Imagen actual que se ha cargado
     public BufferedImage imageActual;
+    public BufferedImage imageOriginal;
+    
     public int puntoInicialX;
     public int puntoInicialY;
     public int puntoFinalX;
@@ -358,13 +360,22 @@ public class ProcesamientoLaberinto {
             
             Collections.sort(abiertos);
         
-            //obtengo el que tiene un f más pequeño
-            Nodo menor = abiertos.get(0);
-            inicial = menor;
-            x = menor.x;
-            y = menor.y;
+            Nodo menor;
+            try
+            {
+                abiertos.remove(0);
+                //obtengo el que tiene un f más pequeño
+                menor = abiertos.get(0);
+                inicial = menor;
+                x = menor.x;
+                y = menor.y;
+            }
+            catch(Exception e)
+            {
+                mensaje("Error","No existe ruta para poder llegar");
+                break;
+            }
             
-            abiertos.remove(0);
             cerrados.add(menor);
             tablero_nodos_abiertos[x][y] = null;
             tablero_nodos_cerrados[x][y] = menor;
@@ -410,6 +421,8 @@ public class ProcesamientoLaberinto {
     
     public BufferedImage CargarImagenLaberinto(){
         BufferedImage bmp=null;
+        BufferedImage bmp2=null;
+        
         JFileChooser selector=new JFileChooser();        
         File workingDirectory = new File(System.getProperty("user.dir"));
         FileNameExtensionFilter filtroImagen = new FileNameExtensionFilter("JPG & GIF & BMP", "jpg", "gif", "bmp");
@@ -426,12 +439,15 @@ public class ProcesamientoLaberinto {
                 File imagenSeleccionada=selector.getSelectedFile();
                 //Asignamos a la variable bmp la imagen leida
                 bmp = ImageIO.read(imagenSeleccionada);
+                bmp2 = ImageIO.read(imagenSeleccionada);
             } catch (Exception e) {
             }
                  
         }
         //Asignamos la imagen cargada a la propiedad imageActual
         imageActual=bmp;
+        imageOriginal=bmp2;
+        
         //Retornamos el valor
         return bmp;
     }
