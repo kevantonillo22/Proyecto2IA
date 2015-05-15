@@ -8,8 +8,11 @@ package Procesamiento;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -24,6 +27,8 @@ public class ProcesamientoLaberinto {
     public BufferedImage imageActual;
     public BufferedImage imageOriginal;
     
+    public File imagenSeleccionada;
+            
     public int puntoInicialX;
     public int puntoInicialY;
     public int puntoFinalX;
@@ -436,7 +441,7 @@ public class ProcesamientoLaberinto {
         if(flag==JFileChooser.APPROVE_OPTION){
             try {
                 //Devuelve el fichero seleccionado
-                File imagenSeleccionada=selector.getSelectedFile();
+                imagenSeleccionada=selector.getSelectedFile();
                 //Asignamos a la variable bmp la imagen leida
                 bmp = ImageIO.read(imagenSeleccionada);
                 bmp2 = ImageIO.read(imagenSeleccionada);
@@ -470,5 +475,16 @@ public class ProcesamientoLaberinto {
         }
         //Retornamos la imagen
         return imageActual;
+    }
+    
+    public void reiniciar()
+    {
+        try {
+            imageActual = ImageIO.read(imagenSeleccionada);
+            imageOriginal = ImageIO.read(imagenSeleccionada);
+        } catch (IOException ex) {
+            Logger.getLogger(ProcesamientoLaberinto.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 }
